@@ -1,5 +1,8 @@
 package com.basketball.league.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitalizer","handler"})
 public class Player {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,6 +20,7 @@ public class Player {
 
   private String firstname, lastname, position;
 
+  @JsonIgnore
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "teamid")
   private Team team;
