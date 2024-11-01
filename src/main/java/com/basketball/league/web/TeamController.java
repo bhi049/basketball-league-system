@@ -1,23 +1,40 @@
 package com.basketball.league.web;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.basketball.league.model.Player;
 import com.basketball.league.model.Team;
 import com.basketball.league.model.TeamRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
 @RestController
+@RequestMapping("/api/teams")
 public class TeamController {
-  private final TeamRepository teamRepository;
 
-  public TeamController(TeamRepository teamRepository) {
-    this.teamRepository = teamRepository;
-  }
+    @Autowired
+    private TeamRepository teamRepository;
 
-  @GetMapping("/teams")
-  public Iterable<Team> getTeams() {
-    return teamRepository.findAll();
-  } 
+    // Get all teams
+    @GetMapping
+    public List<Team> getAllTeams() {
+        return teamRepository.findAll();
+    }
+
+    // Get a specific team by ID
+    @GetMapping("/{id}")
+    public Team getTeamById(@PathVariable Long id) {
+        return teamRepository.findById(id).orElse(null);
+    }
+
+    // Get players for a specific team
+    @GetMapping("/{id}/players")
+    public List<Player> getPlayersByTeam(@PathVariable Long id) {
+        Team team = teamRepository.findById(id).orElse(null);
+        return team != null ? team.getPlayers() : null;
+    } 
 }
-  
-

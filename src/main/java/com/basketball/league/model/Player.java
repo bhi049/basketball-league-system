@@ -1,10 +1,7 @@
 package com.basketball.league.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,77 +9,67 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitalizer","handler"})
 public class Player {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long playerid;
 
-  private String firstname, lastname, position;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-  @JsonIgnore
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "teamid")
-  private Team team;
+    private String firstName;
+    private String lastName;
+    private String position;
 
+    @ManyToOne
+    @JoinColumn(name = "team_id", nullable = false) // This will link the player to a team
+    private Team team;
 
-  public Player() {}
+    public Player() {}
 
+    public Player(String firstName, String lastName, String position, Team team) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.position = position;
+        this.team = team;
+    }
 
-  public Player(String firstname, String lastname, String position, Team team) {
-    super();
-    this.firstname = firstname;
-    this.lastname = lastname;
-    this.position = position;
-    this.team = team;
-  }
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
 
-  public Long getPlayerid() {
-    return playerid;
-  }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public String getFirstName() {
+        return firstName;
+    }
 
-  public void setPlayerid(Long playerid) {
-    this.playerid = playerid;
-  }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
+    public String getLastName() {
+        return lastName;
+    }
 
-  public String getFirstname() {
-    return firstname;
-  }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
+    public String getPosition() {
+        return position;
+    }
 
-  public void setFirstname(String firstname) {
-    this.firstname = firstname;
-  }
+    public void setPosition(String position) {
+        this.position = position;
+    }
 
+    public Team getTeam() {
+        return team;
+    }
 
-  public String getLastname() {
-    return lastname;
-  }
-
-
-  public void setLastname(String lastname) {
-    this.lastname = lastname;
-  }
-
-
-  public String getPosition() {
-    return position;
-  }
-
-
-  public void setPosition(String position) {
-    this.position = position;
-  }
-
-
-  public Team getTeam() {
-    return team;
-  }
-
-
-  public void setTeam(Team team) {
-    this.team = team;
-  }
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 }
