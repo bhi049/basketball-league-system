@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Teams</title>
+  </head>
+  <body>
+    <h1>Teams</h1>
+    <ul>
+      <li th:each="team : ${teams}">
+        <span th:text="${team.name}">Team Name</span> - Coach: <span th:text="${team.coach}">Coach</span>
+      </li>
+    </ul>
+    <a th:href="@{/}">Home</a>
+  </body>
+</html>
