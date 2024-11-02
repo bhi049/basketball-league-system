@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
     <title>Teams</title>
-  </head>
-  <body>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
     <h1>Teams</h1>
-    <ul>
-      <li th:each="team : ${teams}">
-        <span th:text="${team.name}">Team Name</span> - Coach: <span th:text="${team.coach}">Coach</span>
-      </li>
-    </ul>
+    <div class="team-list">
+        <ul>
+            <li th:each="team : ${teams}" class="team-item">
+                <img th:src="@{'/images/logos/' + ${team.name} + '_logo.png'}" alt="Logo" class="team-logo">
+                <span class="team-name" th:text="${team.name}">Team Name</span>
+            </li>
+        </ul>
+    </div>
     <a th:href="@{/}">Home</a>
-  </body>
+</body>
 </html>
