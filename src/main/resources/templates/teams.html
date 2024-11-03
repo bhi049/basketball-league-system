@@ -2,18 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Teams</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 <body>
-    <h1>Teams</h1>
-    <div class="team-list">
-        <ul>
-            <li th:each="team : ${teams}" class="team-item">
-                <img th:src="@{'/images/logos/' + ${team.name} + '_logo.png'}" alt="Logo" class="team-logo">
-                <span class="team-name" th:text="${team.name}">Team Name</span>
+    <div class="teams-container">
+        <h1>Teams</h1>
+        <ul class="team-list">
+            <li class="team-item" th:each="team : ${teams}">
+                <a th:href="@{'/teams/' + ${team.id}}">
+                    <div class="team-logo">
+                        <img th:src="@{'/images/logos/' + ${team.name} + '_logo.png'}" alt="Team Logo">
+                    </div>
+                    <span class="team-name" th:text="${team.name}">Team Name</span>
+                </a>
             </li>
         </ul>
+        <div style="text-align: center; margin-top: 20px;">
+            <a th:href="@{/}">Home</a>
+        </div>
     </div>
-    <a th:href="@{/}">Home</a>
 </body>
 </html>
