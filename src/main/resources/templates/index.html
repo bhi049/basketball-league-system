@@ -1,10 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <title>Basketball League</title>
-  </head>
-  <body>
-    <h1>Welcome to the Basketball League</h1>
-    <a th:href="@{/teams}">View all Teams</a>
-  </body>
+<head>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="header">
+        <div class="logo-container">
+            <img src="/images/logos/Pro_Ball_Fantasy.png" alt="Pro_Ball_Fantasy.png" class="league-logo">
+            <span class="league-name">Pro Ball Fantasy League</span>
+        </div>
+        <nav class="navbar">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/standings}">Standings</a>
+            <a th:href="@{/games}">Games</a>
+            <a th:href="@{/teams}">Teams</a>
+            <a th:href="@{/players}">Players</a>
+            <a th:href="@{/contact}">Contact</a>
+        </nav>
+    </div>
+</body>
 </html>

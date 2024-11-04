@@ -1,52 +1,87 @@
+/* Reset and body styling */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
   margin: 0;
   padding: 0;
+  background-color: #f4f4f9;
+}
+
+/* Header container */
+.header {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 100vh;
+  background-color: #333;
+  color: #fff;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-h1 {
-  text-align: center;
-  font-size: 2.5em;
-  color: #333;
-  margin-top: 20px;
+/* Logo container */
+.logo-container {
+  display: flex;
+  align-items: center;
 }
 
-a {
-  text-decoration: none;
-  color: #0056b3;
+.league-logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.league-name {
+  font-size: 1.5em;
   font-weight: bold;
 }
 
-a:hover {
-  color: #003f8a;
+/* Navigation bar */
+.navbar {
+  margin-top: 10px;
+  display: flex;
+  gap: 20px;
 }
 
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1em;
+  padding: 5px 10px;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.navbar a:hover {
+  color: #ddd;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+/* Teams Container */
 .teams-container {
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 800px;
+  margin: 20px auto;
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Team List for Two Columns */
 .team-list {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
+/* Team Item */
 .team-item {
   display: flex;
   align-items: center;
   background-color: #f8f8f8;
   padding: 12px;
-  margin: 10px 0;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -76,11 +111,13 @@ a:hover {
 
 .team-name {
   font-size: 1.2em;
+  color: #333;
 }
 
+/* Team Details Container */
 .team-details-container {
   max-width: 600px;
-  margin: auto;
+  margin: 20px auto;
   text-align: center;
   background-color: #fff;
   padding: 20px;
@@ -91,6 +128,7 @@ a:hover {
 .team-details-container h1 {
   font-size: 2em;
   color: #333;
+  margin-bottom: 10px;
 }
 
 .team-details-container h2 {
@@ -101,6 +139,7 @@ a:hover {
 .player-list {
   list-style: none;
   padding: 0;
+  margin: 20px 0;
 }
 
 .player-item {
@@ -108,6 +147,7 @@ a:hover {
   font-size: 1.1em;
 }
 
+/* Centered Logo for Team Details */
 .team-details-logo {
   display: flex;
   justify-content: center;
@@ -117,7 +157,7 @@ a:hover {
 
 .team-details-logo img {
   display: block;
-  margin: auto;
-  width: 150px;
+  width: 100px;
   height: auto;
+  border-radius: 8px;
 }
