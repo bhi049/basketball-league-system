@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Players - Pro Ball Fantasy League</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+
+<body>
+  <div class="header">
+    <div class="logo-container">
+      <img src="/images/logos/Pro_Ball_Fantasy.png" alt="Pro_Ball_Fantasy.png" class="league-logo">
+      <span class="league-name">Pro Ball Fantasy League</span>
+    </div>
+    <nav class="navbar">
+      <a th:href="@{/}">Home</a>
+      <a th:href="@{/standings}">Standings</a>
+      <a th:href="@{/games}">Games</a>
+      <a th:href="@{/teams}">Teams</a>
+      <a th:href="@{/players}">Players</a>
+      <a th:href="@{/contact}">Contact</a>
+    </nav>
+  </div>
+
+  <div class="players-container">
+    <h1>All players</h1>
+
+    <!-- Search Bar -->
+    <input type="text" id="playerSearch" placeholder="Find player" onkeyup="filterPlayers()">
+
+    <!-- Player List -->
+    <ul id="playerList">
+      <li th:each="player : ${players}" class="player-item">
+        <span th:text="${player.firstName} + ' ' + ${player.lastName}">Player</span> - 
+        <span th:text="${player.position}">Position</span>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    function filterPlayers() {
+      const searchInput = document.getElementById('playerSearch').value.toLowerCase();
+      const players = document.querySelectorAll('#playerList .player-item');
+
+      players.forEach(player => {
+        const name = player.innerText.toLowerCase();
+        player.style.display = name.includes(searchInput) ? '' : 'none';
+      });
+    }
+  </script>
+
+</body>
+
+</html>

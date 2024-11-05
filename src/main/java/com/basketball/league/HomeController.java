@@ -46,6 +46,13 @@ public class HomeController {
       model.addAttribute("players", players);
       return "team-details";
     } 
+
+    @GetMapping("/players")
+    public String players(Model model) {
+      List<Player> players = playerRepository.findAll();
+      model.addAttribute("players", players);
+      return "players";
+    }
 }
   
 

@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title th:text="${team.name} + ' Details'">Team Details</title>
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
+
 <body>
+
+    <div class="header">
+        <div class="logo-container">
+            <img src="/images/logos/Pro_Ball_Fantasy.png" alt="Pro_Ball_Fantasy.png" class="league-logo">
+            <span class="league-name">Pro Ball Fantasy League</span>
+        </div>
+        <nav class="navbar">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/standings}">Standings</a>
+            <a th:href="@{/games}">Games</a>
+            <a th:href="@{/teams}">Teams</a>
+            <a th:href="@{/players}">Players</a>
+            <a th:href="@{/contact}">Contact</a>
+        </nav>
+    </div>
+
     <div class="team-details-container">
         <h1 th:text="${team.name}">Team Name</h1>
-        
+
         <div class="team-details-logo">
             <img th:src="@{'/images/logos/' + ${team.name} + '_logo.png'}" alt="Team Logo" class="team-logo-img">
         </div>
@@ -17,7 +35,7 @@
         <h2>Players</h2>
         <ul class="player-list">
             <li class="player-item" th:each="player : ${players}">
-                <span th:text="${player.firstName} + ' ' + ${player.lastName}">Player Name</span> - 
+                <span th:text="${player.firstName} + ' ' + ${player.lastName}">Player Name</span> -
                 <span th:text="${player.position}">Position</span>
             </li>
         </ul>
@@ -27,4 +45,5 @@
         </div>
     </div>
 </body>
+
 </html>
