@@ -5,22 +5,30 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+import com.basketball.league.model.Game;
+import com.basketball.league.model.GameRepository;
 import com.basketball.league.model.Player;
 import com.basketball.league.model.PlayerRepository;
 import com.basketball.league.model.Team;
 import com.basketball.league.model.TeamRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class HomeController {
 
   private final TeamRepository teamRepository;
   private final PlayerRepository playerRepository;
+  private final GameRepository gameRepository;
 
-  public HomeController(TeamRepository teamRepository, PlayerRepository playerRepository) {
+  public HomeController(TeamRepository teamRepository, PlayerRepository playerRepository, GameRepository gameRepository) {
     this.teamRepository = teamRepository;
     this.playerRepository = playerRepository;
+    this.gameRepository = gameRepository;
   }
 
   // Homepage
@@ -47,6 +55,7 @@ public class HomeController {
       return "team-details";
     } 
 
+    // List of all players
     @GetMapping("/players")
     public String players(Model model) {
       List<Player> players = playerRepository.findAll();

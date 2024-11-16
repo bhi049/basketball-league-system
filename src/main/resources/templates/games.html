@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Game Results</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+
+<body>
+  <div class="header">
+    <div class="logo-container">
+      <img src="/images/logos/Pro_Ball_Fantasy.png" alt="Pro Ball Fantasy League" class="league-logo">
+      <span class="league-name">Pro Ball Fantasy League</span>
+    </div>
+    <nav class="navbar">
+      <a th:href="@{/}">Home</a>
+      <a th:href="@{/standings}">Standings</a>
+      <a th:href="@{/games}">Games</a>
+      <a th:href="@{/teams}">Teams</a>
+      <a th:href="@{/players}">Players</a>
+      <a th:href="@{/contact}">Contact</a>
+    </nav>
+  </div>
+
+  <div class="games-container">
+    <h1>Game Results</h1>
+    <div class="games-grid">
+      <!-- Loop through the games list -->
+      <div class="game-card" th:each="game : ${games}">
+        <div class="team-info">
+          <span class="label">Home</span>
+          <img th:src="@{/images/logos/} + ${game.homeTeam.logo}" alt="Home Team Logo" class="team-logo">
+          <p th:text="${game.homeTeam.name}"></p>
+        </div>
+        <div class="score" th:text="${game.homeTeamScore} + ' VS ' + ${game.awayTeamScore}"></div>
+        <div class="team-info">
+          <span class="label">Away</span>
+          <img th:src="@{/images/logos/} + ${game.awayTeam.logo}" alt="Away Team Logo" class="team-logo">
+          <p th:text="${game.awayTeam.name}"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -7,18 +7,23 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Arrays;
 import java.util.List;
 
+import com.basketball.league.model.GameRepository;
 import com.basketball.league.model.Player;
 import com.basketball.league.model.PlayerRepository;
 import com.basketball.league.model.Team;
 import com.basketball.league.model.TeamRepository;
 
-@Configuration
+@Configuration("teamDataInitializer")
 public class TeamDataInitializer {
 
     @Bean
-    public CommandLineRunner loadData(TeamRepository teamRepository, PlayerRepository playerRepository) {
+    public CommandLineRunner loadData(TeamRepository teamRepository, PlayerRepository playerRepository, GameRepository gameRepository) {
         return (args) -> {
             // Initialize each team with players
+            gameRepository.deleteAll();
+            playerRepository.deleteAll();
+            teamRepository.deleteAll();
+
             Team dragons = new Team("Dragons", "Kai Reynolds", "Emerald Bay");
             List<Player> dragonPlayers = List.of(
                 new Player("John", "Davis", "Shooting Guard", dragons),

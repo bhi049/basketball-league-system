@@ -2,12 +2,14 @@ package com.basketball.league.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -22,10 +24,8 @@ public class Team {
     private String city;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Player> players = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "teams")
-    private List<Game> games;
 
     public Team() {}
 
@@ -80,13 +80,5 @@ public class Team {
 
     public void setPlayers(List<Player> players) {
         this.players = players;
-    }
-
-    public List<Game> getGames() {
-        return games;
-    }
-
-    public void setGames(List<Game> games) {
-        this.games = games;
     }
 }

@@ -1,5 +1,7 @@
 package com.basketball.league.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +22,7 @@ public class Player {
 
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = false) // This will link the player to a team
+    @JsonBackReference
     private Team team;
 
     public Player() {}
