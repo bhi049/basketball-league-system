@@ -59,13 +59,14 @@ public class HomeController {
       return "players";
     }
 
+    // Show games
     @GetMapping("/games")
-    public String getGames(Model model) {
+    public String games(Model model) {
       List<Game> games = gameRepository.findAll();
-      System.out.println("Number of games retrieved: " + games.size()); 
       model.addAttribute("games", games);
       return "games";
-    }
+  }
+
 
 }
   
