@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Standings</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="logo-container">
+      <img src="/images/logos/Pro_Ball_Fantasy.png" alt="Pro_Ball_Fantasy.png" class="league-logo">
+      <span class="league-name">Pro Ball Fantasy League</span>
+    </div>
+    <nav class="navbar">
+      <a th:href="@{/}">Home</a>
+      <a th:href="@{/standings}">Standings</a>
+      <a th:href="@{/games}">Games</a>
+      <a th:href="@{/teams}">Teams</a>
+      <a th:href="@{/players}">Players</a>
+      <a th:href="@{/contact}">Contact</a>
+    </nav>
+  </div>
+
+  <div class="standings-container">
+    <h1 class="standings-title">League Standings</h1>
+    <table class="standings-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Team</th>
+          <th>Wins</th>
+          <th>Losses</th>
+          <th>Scored</th>
+          <th>Conceded</th>
+          <th>Differential</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="standing, iter : ${standings}">
+          <td th:text="${iter.index + 1}"></td>
+          <td th:text="${standing.teamName}"></td>
+          <td th:text="${standing.wins}"></td>
+          <td th:text="${standing.losses}"></td>
+          <td th:text="${standing.scored}"></td>
+          <td th:text="${standing.conceded}"></td>
+          <td th:text="${standing.differential}"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>
