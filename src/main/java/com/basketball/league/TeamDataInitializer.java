@@ -13,7 +13,7 @@ import com.basketball.league.model.PlayerRepository;
 import com.basketball.league.model.Team;
 import com.basketball.league.model.TeamRepository;
 
-@Configuration("teamDataInitializer")
+@Configuration
 public class TeamDataInitializer {
 
     @Bean

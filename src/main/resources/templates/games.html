@@ -24,6 +24,12 @@
 
   <div class="games-container">
     <h1>Game Results</h1>
+
+    <!-- Debugging info to verify data -->
+    <div>
+      <p>Total Games: <span th:text="${#lists.size(games)}"></span></p>
+    </div>
+
     <div class="games-grid">
       <!-- Loop through the games list -->
       <div class="game-card" th:each="game : ${games}">
@@ -32,7 +38,9 @@
           <img th:src="@{/images/logos/} + ${game.homeTeam.logo}" alt="Home Team Logo" class="team-logo">
           <p th:text="${game.homeTeam.name}"></p>
         </div>
-        <div class="score" th:text="${game.homeTeamScore} + ' VS ' + ${game.awayTeamScore}"></div>
+        <div class="score">
+          <p th:text="'Score: ' + ${game.homeTeamScore} + ' - ' + ${game.awayTeamScore}"></p>
+        </div>
         <div class="team-info">
           <span class="label">Away</span>
           <img th:src="@{/images/logos/} + ${game.awayTeam.logo}" alt="Away Team Logo" class="team-logo">

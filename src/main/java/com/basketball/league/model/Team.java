@@ -3,7 +3,7 @@ package com.basketball.league.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -24,8 +24,14 @@ public class Team {
     private String city;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Player> players = new ArrayList<>();
+
+    @OneToMany(mappedBy = "homeTeam", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Game> homeGames = new ArrayList<>();
+
+    @OneToMany(mappedBy = "awayTeam", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Game> awayGames = new ArrayList<>();
 
     public Team() {}
 
@@ -81,4 +87,21 @@ public class Team {
     public void setPlayers(List<Player> players) {
         this.players = players;
     }
+
+    public List<Game> getHomeGames() {
+        return homeGames;
+    }
+
+    public void setHomeGames(List<Game> homeGames) {
+        this.homeGames = homeGames;
+    }
+
+    public List<Game> getAwayGames() {
+        return awayGames;
+    }
+
+    public void setAwayGames(List<Game> awayGames) {
+        this.awayGames = awayGames;
+    }
+
 }

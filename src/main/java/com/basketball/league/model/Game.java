@@ -18,11 +18,11 @@ public class Game {
     private int awayTeamScore;
 
     @ManyToOne
-    @JoinColumn(name = "home_team_id")
+    @JoinColumn(name = "home_team_id", nullable = false)
     private Team homeTeam;
 
     @ManyToOne
-    @JoinColumn(name = "away_team_id")
+    @JoinColumn(name = "away_team_id", nullable = false)
     private Team awayTeam;
 
     // Default constructor
@@ -32,7 +32,7 @@ public class Game {
     public Game(Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
-        this.homeTeamScore = 0; // Optional: Initialize scores to 0 or leave them unassigned
+        this.homeTeamScore = 0; // Default score set to 0
         this.awayTeamScore = 0;
     }
 
@@ -75,5 +75,16 @@ public class Game {
 
     public void setAwayTeam(Team awayTeam) {
         this.awayTeam = awayTeam;
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+               "id=" + id +
+               ", homeTeam=" + (homeTeam != null ? homeTeam.getName() : "null") +
+               ", awayTeam=" + (awayTeam != null ? awayTeam.getName() : "null") +
+               ", homeTeamScore=" + homeTeamScore +
+               ", awayTeamScore=" + awayTeamScore +
+               '}';
     }
 }

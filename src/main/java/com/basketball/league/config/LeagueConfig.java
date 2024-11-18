@@ -9,17 +9,5 @@ import org.springframework.context.annotation.DependsOn;
 @Configuration
 @DependsOn("teamDataInitializer")
 public class LeagueConfig {
-
-    private final GameService gameService;
-
-    public LeagueConfig(GameService gameService) {
-        this.gameService = gameService;
-    }
-
-    @Bean
-    public CommandLineRunner initializeGames() {
-        return args -> {
-            gameService.scheduleGames(); // Initializes the games
-        };
-    }
 }
+
