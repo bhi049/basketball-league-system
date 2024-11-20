@@ -40,7 +40,14 @@
       <tbody>
         <tr th:each="standing, iter : ${standings}">
           <td th:text="${iter.index + 1}"></td>
-          <td th:text="${standing.teamName}"></td>
+          <td>
+            <div class="team-logo-name">
+              <img th:src="@{'/images/logos/' + ${standing.teamName} + '_logo.png'}" alt="Logo for ${standing.teamName}"
+                class="standings-logo">
+              <span th:text="${standing.teamName}"></span>
+            </div>
+          </td>
+
           <td th:text="${standing.wins}"></td>
           <td th:text="${standing.losses}"></td>
           <td th:text="${standing.scored}"></td>
