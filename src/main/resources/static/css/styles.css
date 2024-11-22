@@ -358,3 +358,11 @@ button:hover {
   font-weight: bold;
   color: #333;
 }
+
+.navbar a.account-button {
+  color: #ffd700; 
+  font-weight: bold;
+}
+.navbar a.account-button:hover {
+  color: #ffa500; 
+}

@@ -24,7 +24,10 @@ public class User {
   private String role;
 
   @ManyToOne
-  private Team favouTeam;
+  private Team favouriteTeam;
+
+  @ManyToOne
+  private Player favouritePlayer;
 
   public Long getId() {
     return id;
@@ -58,12 +61,20 @@ public class User {
     this.role = role;
   }
 
-  public Team getFavouTeam() {
-    return favouTeam;
+  public Team getFavouriteTeam() {
+    return favouriteTeam;
   }
 
-  public void setFavouTeam(Team favouTeam) {
-    this.favouTeam = favouTeam;
+  public void setFavouriteTeam(Team favouriteTeam) {
+    this.favouriteTeam = favouriteTeam;
+  }
+
+  public Player getFavouritePlayer() {
+    return favouritePlayer;
+  }
+
+  public void setFavouritPlayer(Player favouritePlayer) {
+    this.favouritePlayer = favouritePlayer;
   }
 
 }

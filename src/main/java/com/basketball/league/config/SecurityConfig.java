@@ -38,7 +38,8 @@ public class SecurityConfig {
                     "/js/**", 
                     "/images/**"
                 ).permitAll()
-                .anyRequest().permitAll())
+                .requestMatchers("/account").authenticated() // Ensure only logged-in users access /account
+                .anyRequest().authenticated())
             .formLogin(login -> login
                 .loginPage("/login")
                 .permitAll()
@@ -56,4 +57,3 @@ public class SecurityConfig {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 }
-
