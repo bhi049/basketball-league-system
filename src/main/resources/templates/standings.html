@@ -20,6 +20,13 @@
       <a th:href="@{/teams}">Teams</a>
       <a th:href="@{/players}">Players</a>
       <a th:href="@{/contact}">Contact</a>
+      <!-- Dynamic login/logout buttons -->
+      <span th:if="${#authentication.name != 'anonymousUser'}">
+        <a th:href="@{/logout}">Logout (<span th:text="${#authentication.name}"></span>)</a>
+      </span>
+      <span th:unless="${#authentication.name != 'anonymousUser'}">
+        <a th:href="@{/login}">Login</a>
+      </span>
     </nav>
   </div>
 

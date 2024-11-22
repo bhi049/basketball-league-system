@@ -27,11 +27,16 @@ public class HomeController {
     this.gameRepository = gameRepository;
   }
 
-  // Homepage
   @GetMapping("/")
-    public String home() {
-      return "index";
-    }
+  public String home() {
+      return "index"; // Maps to src/main/resources/templates/index.html
+  }
+
+  @GetMapping("/login")
+  public String loginPage() {
+      return "login"; // Maps to src/main/resources/templates/login.html
+  }
+
 
     // List of all teams
     @GetMapping("/teams")
