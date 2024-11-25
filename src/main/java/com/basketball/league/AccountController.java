@@ -30,50 +30,41 @@ public class AccountController {
 
     @GetMapping("/account")
     public String accountPage(Model model) {
-        // Get currently logged-in user's username
+        // Get the currently authenticated user
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        
-        // Fetch user from the database
+        String username = auth.getName(); // This gets the username of the logged-in user
         User user = userRepository.findByUsername(username).orElse(null);
 
-        if (user == null) {
-            System.out.println("User not found for username: " + username);
-        } else {
-            System.out.println("User found: " + user.getUsername());
-            System.out.println("Favourite Team: " + (user.getFavouriteTeam() != null ? user.getFavouriteTeam().getName() : "None"));
-            System.out.println("Favourite Player: " + (user.getFavouritePlayer() != null ? user.getFavouritePlayer().getFirstName() : "None"));
-        }
+        // Debugging logs
+    System.out.println("Logged-in username: " + username);
+    if (user != null) {
+        System.out.println("User role: " + user.getRole());
+        System.out.println("User favourite team: " + (user.getFavouriteTeam() != null ? user.getFavouriteTeam().getName() : "None"));
+        System.out.println("User favourite player: " + (user.getFavouritePlayer() != null ? user.getFavouritePlayer().getFirstName() : "None"));
+    } else {
+        System.out.println("No user found in the database for the username.");
+    }
+
 
         // Add attributes to the model
-        model.addAttribute("user", user);
-        model.addAttribute("teams", teamRepository.findAll());
-        model.addAttribute("players", playerRepository.findAll());
+        model.addAttribute("user", user); // The current user
+        model.addAttribute("teams", teamRepository.findAll()); // All teams for dropdowns
+        model.addAttribute("players", playerRepository.findAll()); // All players for dropdowns
+        model.addAttribute("roles", auth.getAuthorities());
 
-        return "account";
+        return "account"; // Return the view name (account.html)
     }
 
     @PostMapping("/account/favourite-team")
     public String saveFavouriteTeam(@RequestParam Long team, Model model) {
-        // Get currently logged-in user's username
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-        
-        // Fetch user from the database
         User user = userRepository.findByUsername(username).orElse(null);
 
         if (user != null) {
-            // Find and set the favourite team
             Team favouriteTeam = teamRepository.findById(team).orElse(null);
-            if (favouriteTeam != null) {
-                user.setFavouriteTeam(favouriteTeam);
-                userRepository.save(user);
-                System.out.println("Favourite Team updated: " + favouriteTeam.getName());
-            } else {
-                System.out.println("Team not found with ID: " + team);
-            }
-        } else {
-            System.out.println("User not found for username: " + username);
+            user.setFavouriteTeam(favouriteTeam);
+            userRepository.save(user);
         }
 
         return "redirect:/account";
@@ -81,27 +72,44 @@ public class AccountController {
 
     @PostMapping("/account/favourite-player")
     public String saveFavouritePlayer(@RequestParam Long player, Model model) {
-        // Get currently logged-in user's username
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-        
-        // Fetch user from the database
         User user = userRepository.findByUsername(username).orElse(null);
 
         if (user != null) {
-            // Find and set the favourite player
             Player favouritePlayer = playerRepository.findById(player).orElse(null);
-            if (favouritePlayer != null) {
-                user.setFavouritePlayer(favouritePlayer);
-                userRepository.save(user);
-                System.out.println("Favourite Player updated: " + favouritePlayer.getFirstName() + " " + favouritePlayer.getLastName());
-            } else {
-                System.out.println("Player not found with ID: " + player);
-            }
-        } else {
-            System.out.println("User not found for username: " + username);
+            user.setFavouritePlayer(favouritePlayer);
+            userRepository.save(user);
         }
 
         return "redirect:/account";
     }
+    @PostMapping("/account/favourite-team/clear")
+public String clearFavouriteTeam() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String username = auth.getName();
+    User user = userRepository.findByUsername(username).orElse(null);
+
+    if (user != null) {
+        user.setFavouriteTeam(null); // Clear the favorite team
+        userRepository.save(user);
+    }
+
+    return "redirect:/account"; // Redirect back to the account page
+}
+
+@PostMapping("/account/favourite-player/clear")
+public String clearFavouritePlayer() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String username = auth.getName();
+    User user = userRepository.findByUsername(username).orElse(null);
+
+    if (user != null) {
+        user.setFavouritePlayer(null); // Clear the favorite player
+        userRepository.save(user);
+    }
+
+    return "redirect:/account"; // Redirect back to the account page
+}
+
 }

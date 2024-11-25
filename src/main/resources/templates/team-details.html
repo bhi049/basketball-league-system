@@ -27,6 +27,7 @@
             <span th:unless="${#authentication.name != 'anonymousUser'}">
                 <a th:href="@{/login}">Login</a>
             </span>
+            <a th:href="@{/account}" class="account-button">Account</a>
         </nav>
     </div>
 

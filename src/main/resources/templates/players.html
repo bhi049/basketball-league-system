@@ -26,6 +26,7 @@
       <span th:unless="${#authentication.name != 'anonymousUser'}">
         <a th:href="@{/login}">Login</a>
       </span>
+      <a th:href="@{/account}" class="account-button">Account</a>
     </nav>
   </div>
 
@@ -37,24 +38,27 @@
 
     <!-- Player List -->
     <ul id="playerList">
-      <li th:each="player : ${players}" class="player-item">
-        <span th:text="${player.firstName} + ' ' + ${player.lastName}">Player</span> -
-        <span th:text="${player.position}">Position</span>
-      </li>
+        <li th:each="player : ${players}" class="player-item">
+            <span th:text="${player.firstName + ' ' + player.lastName}"></span> -
+            <span th:text="${player.position}"></span>
+            <!-- Add star icon for the favorite player -->
+            <span th:if="${user != null && user.favouritePlayer != null && user.favouritePlayer.id == player.id}">⭐</span>
+        </li>
     </ul>
-  </div>
+</div>
 
-  <script>
+<script>
     function filterPlayers() {
-      const searchInput = document.getElementById('playerSearch').value.toLowerCase();
-      const players = document.querySelectorAll('#playerList .player-item');
+        const searchInput = document.getElementById('playerSearch').value.toLowerCase();
+        const players = document.querySelectorAll('#playerList .player-item');
 
-      players.forEach(player => {
-        const name = player.innerText.toLowerCase();
-        player.style.display = name.includes(searchInput) ? '' : 'none';
-      });
+        players.forEach(player => {
+            const name = player.innerText.toLowerCase();
+            player.style.display = name.includes(searchInput) ? '' : 'none';
+        });
     }
-  </script>
+</script>
+
 
 </body>
 

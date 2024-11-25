@@ -25,6 +25,7 @@
             <span th:unless="${#authentication.name != 'anonymousUser'}">
                 <a th:href="@{/login}">Login</a>
             </span>
+            <a th:href="@{/account}" class="account-button">Account</a>
         </nav>
     </div>
 
@@ -37,9 +38,12 @@
                         <img th:src="@{'/images/logos/' + ${team.name} + '_logo.png'}" alt="Team Logo">
                     </div>
                     <span class="team-name" th:text="${team.name}"></span>
+                    <!-- Add star icon for the favorite team -->
+                    <span th:if="${user != null && user.favouriteTeam != null && user.favouriteTeam.id == team.id}">⭐</span>
                 </a>
             </li>
         </ul>
     </div>
 </body>
 </html>
+
