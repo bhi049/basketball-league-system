@@ -1,35 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Manage Players</title>
-    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
 </head>
+
 <body>
-    <h1>Manage Players</h1>
-    <a th:href="@{/admin/players/add}">Add New Player</a>
-    <table>
-        <thead>
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Position</th>
-                <th>Team</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="player : ${players}">
-                <td th:text="${player.firstName}">First Name</td>
-                <td th:text="${player.lastName}">Last Name</td>
-                <td th:text="${player.position}">Position</td>
-                <td th:text="${player.team.name}">Team Name</td>
-                <td>
-                    <a th:href="@{'/admin/players/edit/' + ${player.id}}">Edit</a> |
-                    <a th:href="@{'/admin/players/delete/' + ${player.id}}" onclick="return confirm('Are you sure?')">Delete</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <a th:href="@{/admin}">Back to Dashboard</a>
+    <div class="admin-header">
+        <h1>Manage Players</h1>
+        <p>View, edit, or delete players in the system.</p>
+    </div>
+
+    <div class="admin-actions">
+        <a th:href="@{/admin/players/add}" class="admin-btn">Add New Player</a>
+    </div>
+
+    <div class="admin-table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Position</th>
+                    <th>Team</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="player : ${players}">
+                    <td th:text="${player.firstName}">First Name</td>
+                    <td th:text="${player.lastName}">Last Name</td>
+                    <td th:text="${player.position}">Position</td>
+                    <td th:text="${player.team.name}">Team Name</td>
+                    <td>
+                        <a th:href="@{'/admin/players/edit/' + ${player.id}}" class="edit-btn">Edit</a>
+                        <a th:href="@{'/admin/players/delete/' + ${player.id}}" class="delete-btn" 
+                           onclick="return confirm('Are you sure you want to delete this player?')">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="back-home">
+        <a th:href="@{/admin}" class="back-btn">Back to Dashboard</a>
+    </div>
 </body>
+
 </html>

@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Admin Panel</title>
-    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
 </head>
+
 <body>
-    <h1>Admin Dashboard</h1>
-    <nav>
-        <a th:href="@{/admin/teams}">Manage Teams</a>
-        <a th:href="@{/admin/players}">Manage Players</a>
-        <a th:href="@{/admin/games}">Manage Games</a>
-    </nav>
+    <div class="admin-header">
+        <h1>Admin Dashboard</h1>
+        <p>Manage everything</p>
+    </div>
+
+    <div class="admin-actions">
+        <a th:href="@{/admin/teams}" class="admin-btn">Manage Teams</a>
+        <a th:href="@{/admin/players}" class="admin-btn">Manage Players</a>
+        <a th:href="@{/admin/games}" class="admin-btn">Manage Games</a>
+    </div>
+
+    <div class="back-home">
+        <a th:href="@{/}" class="back-btn">Back to Home</a>
+    </div>
 </body>
+
 </html>
+
