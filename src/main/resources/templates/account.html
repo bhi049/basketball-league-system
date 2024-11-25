@@ -34,6 +34,13 @@
     <h1>Account Page</h1>
     <p>Welcome, <span th:text="${user != null ? user.username : 'Guest'}">User</span>!</p>
 
+    <!-- Admin Dashboard Button -->
+    <div th:if="${#authentication.authorities.?[authority == 'ROLE_ADMIN'].size() > 0}">
+        <h2>Admin Actions</h2>
+        <a th:href="@{/admin}" class="button admin-button">Go to Admin Dashboard</a>
+    </div>
+    
+
     <!-- Favourite Team Section -->
     <div>
         <h2>Favourite Team</h2>
