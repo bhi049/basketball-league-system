@@ -28,7 +28,9 @@ public class PlayerController {
                 player.getId(),
                 player.getFirstName(),
                 player.getLastName(),
-                player.getPosition()
+                player.getPosition(),
+                player.getTeam().getId(),       // Include teamId
+                player.getTeam().getName()      // Include teamName
             ))
             .collect(Collectors.toList());
     }
@@ -41,8 +43,11 @@ public class PlayerController {
                 player.getId(),
                 player.getFirstName(),
                 player.getLastName(),
-                player.getPosition()
+                player.getPosition(),
+                player.getTeam().getId(),       // Include teamId
+                player.getTeam().getName()      // Include teamName
             ))
-            .orElse(null); // Return null or handle properly with an exception
+            .orElse(null); // Handle not found properly if needed
     }
 }
+

@@ -20,6 +20,6 @@ public class StandingsController {
     public String getStandings(Model model) {
         List<StandingsDTO> standings = gameService.getStandings();
         model.addAttribute("standings", standings);
-        return "standings";
+        return "standings"; // Ensure standings.html is set up correctly
     }
 }

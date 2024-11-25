@@ -5,14 +5,20 @@ public class PlayerDTO {
     private String firstName;
     private String lastName;
     private String position;
+    private Long teamId;      // Add teamId
+    private String teamName;  // Add teamName
 
-    public PlayerDTO(Long id, String firstName, String lastName, String position) {
+    // Constructor
+    public PlayerDTO(Long id, String firstName, String lastName, String position, Long teamId, String teamName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.position = position;
+        this.teamId = teamId;
+        this.teamName = teamName;
     }
 
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -43,5 +49,21 @@ public class PlayerDTO {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public Long getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 }

@@ -19,6 +19,10 @@
             <a th:href="@{/teams}">Teams</a>
             <a th:href="@{/players}">Players</a>
             <a th:href="@{/contact}">Contact</a>
+            <span th:if="${#authentication.authorities.contains('ROLE_ADMIN')}">
+                <a th:href="@{/admin}">Admin</a>
+            </span>
+        
             <!-- Dynamic login/logout buttons -->
             <span th:if="${#authentication.name != 'anonymousUser'}">
                 <a th:href="@{/logout}">Logout (<span th:text="${#authentication.name}"></span>)</a>
@@ -29,7 +33,6 @@
             <a th:href="@{/account}" class="account-button">Account</a>
         </nav>
     </div>
-
     
 </body>
 

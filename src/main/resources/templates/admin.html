@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Panel</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <nav>
+        <a th:href="@{/admin/teams}">Manage Teams</a>
+        <a th:href="@{/admin/players}">Manage Players</a>
+        <a th:href="@{/admin/games}">Manage Games</a>
+    </nav>
+</body>
+</html>

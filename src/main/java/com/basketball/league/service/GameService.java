@@ -1,8 +1,8 @@
 package com.basketball.league.service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Comparator;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,20 +24,9 @@ public class GameService {
   @Autowired
   private GameRepository gameRepository;
 
-  /**
-   * Check if teams exist in the database.
-   *
-   * @return true if teams exist, false otherwise.
-   */
-  public boolean hasTeams() {
-    return teamRepository.count() > 0;
-  }
-
-  /**
-   * Schedule games between all teams.
-   */
   @Transactional
   public void scheduleGames() {
+
     List<Team> teams = teamRepository.findAll();
 
     for (int i = 0; i < teams.size(); i++) {
@@ -71,11 +60,6 @@ public class GameService {
     }
   }
 
-  /**
-   * Calculate the standings of the league.
-   *
-   * @return List of StandingsDTO sorted by wins and score differential.
-   */
   public List<StandingsDTO> getStandings() {
     List<Team> teams = teamRepository.findAll();
     List<StandingsDTO> standings = new ArrayList<>();
@@ -86,7 +70,7 @@ public class GameService {
       int scored = 0;
       int conceded = 0;
 
-      // Calculate home games stats
+      // Calculate wins, losses, scored, and conceded for home games
       List<Game> homeGames = gameRepository.findByHomeTeam(team);
       for (Game game : homeGames) {
         scored += game.getHomeTeamScore();
@@ -98,7 +82,7 @@ public class GameService {
         }
       }
 
-      // Calculate away games stats
+      // Calculate wins, losses, scored, and conceded for away games
       List<Game> awayGames = gameRepository.findByAwayTeam(team);
       for (Game game : awayGames) {
         scored += game.getAwayTeamScore();
@@ -110,16 +94,14 @@ public class GameService {
         }
       }
 
-      // Add team stats to standings
+      // Create a StandingsDTO for the team
       standings.add(new StandingsDTO(team.getName(), wins, losses, scored, conceded));
     }
 
-    // Sort standings by wins, then by score differential
-    standings.sort(Comparator
-        .comparingInt(StandingsDTO::getWins).reversed()
+    // Sort standings by wins and then by score differential
+    standings.sort(Comparator.comparingInt(StandingsDTO::getWins).reversed()
         .thenComparingInt(StandingsDTO::getDifferential).reversed());
 
     return standings;
-
   }
 }

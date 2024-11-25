@@ -38,7 +38,8 @@ public class SecurityConfig {
                     "/js/**", 
                     "/images/**"
                 ).permitAll()
-                .requestMatchers("/account").authenticated() // Ensure only logged-in users access /account
+                .requestMatchers("/account", "/account/**").authenticated() // Ensure only logged-in users access /account
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated())
             .formLogin(login -> login
                 .loginPage("/login")

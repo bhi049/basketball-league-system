@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <title>Account - Pro Ball Fantasy League</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
-
 <body>
     <div class="header">
         <div class="logo-container">
-            <img src="/images/logos/Pro_Ball_Fantasy.png" alt="Pro Ball Fantasy Logo" class="league-logo">
+            <img th:src="@{/images/logos/Pro_Ball_Fantasy.png}" alt="Pro Ball Fantasy Logo" class="league-logo">
             <span class="league-name">Pro Ball Fantasy League</span>
         </div>
         <nav class="navbar">
@@ -19,41 +17,72 @@
             <a th:href="@{/teams}">Teams</a>
             <a th:href="@{/players}">Players</a>
             <a th:href="@{/contact}">Contact</a>
-            <span th:if="${username}">
-                <a th:href="@{/logout}">Logout (<span th:text="${username}"></span>)</a>
+            <span th:if="${#authentication.name != 'anonymousUser'}">
+                <a th:href="@{/logout}">Logout (<span th:text="${#authentication.name}"></span>)</a>
             </span>
         </nav>
     </div>
 
     <div class="container">
         <h1>Account Page</h1>
+        <p>Welcome, <span th:text="${user.username}">User</span>!</p>
 
-        <!-- Display the logged-in user's username -->
-        <p>Welcome, <span th:text="${user.username}"></span>!</p>
-
-        <!-- Favourite team selection -->
-        <div>
-            <h2>Select Your Favourite Team</h2>
-            <form th:action="@{/account/favourite-team}" method="post">
-                <select name="team" required>
-                    <option value="" disabled selected>Select a team</option>
-                    <option th:each="team : ${teams}" th:value="${team.id}" th:text="${team.name}"></option>
-                </select>
-                <button type="submit">Save</button>
-            </form>
+        <!-- Admin Section -->
+        <div th:if="${#authentication.authorities.contains('ROLE_ADMIN')}">
+            <h2>Admin Actions</h2>
+            <a th:href="@{/admin}">Go to Admin Page</a>
         </div>
 
-        <!-- Favourite player selection -->
-        <div>
-            <h2>Select Your Favourite Player</h2>
-            <form th:action="@{/account/favourite-player}" method="post">
-                <select name="player" required>
-                    <option value="" disabled selected>Select a player</option>
-                    <option th:each="player : ${players}" th:value="${player.id}" th:text="${player.firstName + ' ' + player.lastName}"></option>
-                </select>
-                <button type="submit">Save</button>
-            </form>
+        <!-- Favourite Team Section -->
+        <div th:if="${user != null}">
+            <h2>Favourite Team</h2>
+            <div th:if="${user.favouriteTeam != null}">
+                <p>Your Favourite Team: <span th:text="${user.favouriteTeam.name}"></span> ⭐️</p>
+                <form th:action="@{/account/favourite-team}" method="post">
+                    <label for="team">Change Favourite Team:</label>
+                    <select id="team" name="team" required>
+                        <option th:each="team : ${teams}" th:value="${team.id}" th:text="${team.name}"></option>
+                    </select>
+                    <button type="submit">Save</button>
+                </form>
+            </div>
+            <div th:if="${user.favouriteTeam == null}">
+                <form th:action="@{/account/favourite-team}" method="post">
+                    <label for="team">Select Favourite Team:</label>
+                    <select id="team" name="team" required>
+                        <option value="" disabled selected>Select a team</option>
+                        <option th:each="team : ${teams}" th:value="${team.id}" th:text="${team.name}"></option>
+                    </select>
+                    <button type="submit">Save</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Favourite Player Section -->
+        <div th:if="${user != null}">
+            <h2>Favourite Player</h2>
+            <div th:if="${user.favouritePlayer != null}">
+                <p>Your Favourite Player: <span th:text="${user.favouritePlayer.firstName + ' ' + user.favouritePlayer.lastName}"></span> ⭐️</p>
+                <form th:action="@{/account/favourite-player}" method="post">
+                    <label for="player">Change Favourite Player:</label>
+                    <select id="player" name="player" required>
+                        <option th:each="player : ${players}" th:value="${player.id}" th:text="${player.firstName + ' ' + player.lastName}"></option>
+                    </select>
+                    <button type="submit">Save</button>
+                </form>
+            </div>
+            <div th:if="${user.favouritePlayer == null}">
+                <form th:action="@{/account/favourite-player}" method="post">
+                    <label for="player">Select Favourite Player:</label>
+                    <select id="player" name="player" required>
+                        <option value="" disabled selected>Select a player</option>
+                        <option th:each="player : ${players}" th:value="${player.id}" th:text="${player.firstName + ' ' + player.lastName}"></option>
+                    </select>
+                    <button type="submit">Save</button>
+                </form>
+            </div>
         </div>
     </div>
 </body>
 </html>
+

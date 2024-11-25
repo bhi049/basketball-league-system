@@ -73,7 +73,7 @@ public class User {
     return favouritePlayer;
   }
 
-  public void setFavouritPlayer(Player favouritePlayer) {
+  public void setFavouritePlayer(Player favouritePlayer) {
     this.favouritePlayer = favouritePlayer;
   }
 

@@ -19,11 +19,9 @@ public class TeamDataInitializer {
     @Bean
     public CommandLineRunner loadData(TeamRepository teamRepository, PlayerRepository playerRepository, GameRepository gameRepository) {
         return (args) -> {
+            if (teamRepository.count() == 0) {
+            
             // Initialize each team with players
-            gameRepository.deleteAll();
-            playerRepository.deleteAll();
-            teamRepository.deleteAll();
-
             Team dragons = new Team("Dragons", "Kai Reynolds", "Emerald Bay");
             List<Player> dragonPlayers = List.of(
                 new Player("John", "Davis", "Shooting Guard", dragons),
@@ -176,6 +174,7 @@ public class TeamDataInitializer {
 
             // Save teams (players will also be saved due to CascadeType.ALL)
             teamRepository.saveAll(Arrays.asList(dragons, titans, falcons, thunderhawks, silverbacks, raptors, cyclones, mustangs, comets, phoenix));
+            }
         };
     }
 }

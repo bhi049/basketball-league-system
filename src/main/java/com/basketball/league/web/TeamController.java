@@ -1,15 +1,12 @@
 package com.basketball.league.web;
 
 import com.basketball.league.dto.PlayerDTO;
-import com.basketball.league.model.Team;
+import com.basketball.league.dto.TeamDTO;
 import com.basketball.league.model.TeamRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import com.basketball.league.model.Player;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,21 +15,37 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/teams")
 public class TeamController {
 
-    @Autowired
-    private TeamRepository teamRepository;
+    private final TeamRepository teamRepository;
+
+    public TeamController(TeamRepository teamRepository) {
+        this.teamRepository = teamRepository;
+    }
 
     // Get all teams
     @GetMapping
-    public List<Team> getAllTeams() {
-        return teamRepository.findAll();
+    public List<TeamDTO> getAllTeams() {
+        return teamRepository.findAll().stream()
+                .map(team -> new TeamDTO(
+                        team.getId(),
+                        team.getName(),
+                        team.getCoach(),
+                        team.getCity()
+                ))
+                .collect(Collectors.toList());
     }
 
     // Get a specific team by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Team> getTeamById(@PathVariable Long id) {
+    public ResponseEntity<TeamDTO> getTeamById(@PathVariable Long id) {
         return teamRepository.findById(id)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+                .map(team -> new TeamDTO(
+                        team.getId(),
+                        team.getName(),
+                        team.getCoach(),
+                        team.getCity()
+                ))
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     // Get players for a specific team
@@ -44,7 +57,9 @@ public class TeamController {
                     player.getId(),
                     player.getFirstName(),
                     player.getLastName(),
-                    player.getPosition()
+                    player.getPosition(),
+                    team.getId(),       // Add team ID
+                    team.getName()      // Add team name
                 ))
                 .collect(Collectors.toList())
             )
@@ -52,3 +67,4 @@ public class TeamController {
             .orElse(ResponseEntity.notFound().build());
     }
 }
+

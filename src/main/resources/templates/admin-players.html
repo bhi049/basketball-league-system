@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage Players</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+    <h1>Manage Players</h1>
+    <a th:href="@{/admin/players/add}">Add New Player</a>
+    <table>
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Position</th>
+                <th>Team</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="player : ${players}">
+                <td th:text="${player.firstName}">First Name</td>
+                <td th:text="${player.lastName}">Last Name</td>
+                <td th:text="${player.position}">Position</td>
+                <td th:text="${player.team.name}">Team Name</td>
+                <td>
+                    <a th:href="@{'/admin/players/edit/' + ${player.id}}">Edit</a> |
+                    <a th:href="@{'/admin/players/delete/' + ${player.id}}" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/admin}">Back to Dashboard</a>
+</body>
+</html>

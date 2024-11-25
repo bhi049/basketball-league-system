@@ -14,11 +14,7 @@ public class GameInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (gameService.hasTeams()) { // Check if teams exist
-            gameService.scheduleGames();
-            System.out.println("Games have been initialized and saved to the database.");
-        } else {
-            System.out.println("No teams found. Skipping game initialization.");
-        }
+        gameService.scheduleGames();
+        System.out.println("Games have been initialized and saved to the database.");
     }
 }

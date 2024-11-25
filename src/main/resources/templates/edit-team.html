@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${team.id == null ? 'Add Team' : 'Edit Team'}"></title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+    <h1 th:text="${team.id == null ? 'Add New Team' : 'Edit Team'}"></h1>
+    <form th:action="@{/admin/teams/save}" th:object="${team}" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" th:value="${team.name}" required><br>
+        <label for="coach">Coach:</label>
+        <input type="text" id="coach" name="coach" th:value="${team.coach}" required><br>
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" th:value="${team.city}" required><br>
+        <button type="submit">Save</button>
+    </form>
+    <a th:href="@{/admin/teams}">Back to Teams</a>
+</body>
+</html>
