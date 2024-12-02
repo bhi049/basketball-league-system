@@ -19,7 +19,13 @@ public class StandingsController {
     @GetMapping("/standings")
     public String getStandings(Model model) {
         List<StandingsDTO> standings = gameService.getStandings();
+    
+        // Log the standings to verify order
+        standings.forEach(standing -> 
+            System.out.println("Team: " + standing.getTeamName() + ", Wins: " 
+                + standing.getWins() + ", Differential: " + standing.getDifferential()));
+    
         model.addAttribute("standings", standings);
-        return "standings"; // Ensure standings.html is set up correctly
+        return "standings";
     }
 }

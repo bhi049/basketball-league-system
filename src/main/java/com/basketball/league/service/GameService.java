@@ -26,6 +26,10 @@ public class GameService {
 
   @Transactional
   public void scheduleGames() {
+    if (gameRepository.count() > 0) {
+      // Games have already been scheduled, so skip initialization
+      return;
+  }
 
     List<Team> teams = teamRepository.findAll();
 
@@ -39,20 +43,24 @@ public class GameService {
         game.setHomeTeam(homeTeam);
         game.setAwayTeam(awayTeam);
 
-        // Generate consistent scores with randomness based on team IDs
-        int combinedIdSum = homeTeam.getId().intValue() + awayTeam.getId().intValue();
-        int homeScore = (combinedIdSum * 3 % 30) + 75; // Range: 75-104
-        int awayScore = (combinedIdSum * 5 % 30) + 70; // Range: 70-99
+       // Generate random scores with more variability
+       int homeBase = 80 + (int) (Math.random() * 20); // Base: 80–100
+       int awayBase = 75 + (int) (Math.random() * 20); // Base: 75–95
+       int homeRandomFactor = (int) (Math.random() * 15) - 7; // Random: -7 to +7
+       int awayRandomFactor = (int) (Math.random() * 15) - 7; // Random: -7 to +7
 
-        // Slight chance for away team to win
-        if (combinedIdSum % 2 == 0) {
-          int temp = homeScore;
-          homeScore = awayScore;
-          awayScore = temp;
-        }
+       int homeScore = homeBase + homeRandomFactor;
+       int awayScore = awayBase + awayRandomFactor;
 
-        game.setHomeTeamScore(homeScore);
-        game.setAwayTeamScore(awayScore);
+       // Random chance to favor the away team slightly
+       if (Math.random() > 0.5) {
+           homeScore -= (int) (Math.random() * 5);
+           awayScore += (int) (Math.random() * 5);
+       }
+
+       game.setHomeTeamScore(Math.max(50, homeScore)); // Ensure minimum score of 50
+       game.setAwayTeamScore(Math.max(50, awayScore)); // Ensure minimum score of 50
+
 
         // Save the game to the repository
         gameRepository.save(game);
@@ -60,48 +68,49 @@ public class GameService {
     }
   }
 
-  public List<StandingsDTO> getStandings() {
-    List<Team> teams = teamRepository.findAll();
-    List<StandingsDTO> standings = new ArrayList<>();
-
-    for (Team team : teams) {
-      int wins = 0;
-      int losses = 0;
-      int scored = 0;
-      int conceded = 0;
-
       // Calculate wins, losses, scored, and conceded for home games
-      List<Game> homeGames = gameRepository.findByHomeTeam(team);
-      for (Game game : homeGames) {
-        scored += game.getHomeTeamScore();
-        conceded += game.getAwayTeamScore();
-        if (game.getHomeTeamScore() > game.getAwayTeamScore()) {
-          wins++;
-        } else {
-          losses++;
+      public List<StandingsDTO> getStandings() {
+        List<Team> teams = teamRepository.findAll();
+        List<StandingsDTO> standings = new ArrayList<>();
+    
+        for (Team team : teams) {
+            int wins = 0;
+            int losses = 0;
+            int scored = 0;
+            int conceded = 0;
+    
+            // Calculate wins, losses, scored, and conceded for home games
+            List<Game> homeGames = gameRepository.findByHomeTeam(team);
+            for (Game game : homeGames) {
+                scored += game.getHomeTeamScore();
+                conceded += game.getAwayTeamScore();
+                if (game.getHomeTeamScore() > game.getAwayTeamScore()) {
+                    wins++;
+                } else {
+                    losses++;
+                }
+            }
+    
+            // Calculate wins, losses, scored, and conceded for away games
+            List<Game> awayGames = gameRepository.findByAwayTeam(team);
+            for (Game game : awayGames) {
+                scored += game.getAwayTeamScore();
+                conceded += game.getHomeTeamScore();
+                if (game.getAwayTeamScore() > game.getHomeTeamScore()) {
+                    wins++;
+                } else {
+                    losses++;
+                }
+            }
+    
+            // Create a StandingsDTO for the team
+            standings.add(new StandingsDTO(team.getName(), wins, losses, scored, conceded));
         }
-      }
-
-      // Calculate wins, losses, scored, and conceded for away games
-      List<Game> awayGames = gameRepository.findByAwayTeam(team);
-      for (Game game : awayGames) {
-        scored += game.getAwayTeamScore();
-        conceded += game.getHomeTeamScore();
-        if (game.getAwayTeamScore() > game.getHomeTeamScore()) {
-          wins++;
-        } else {
-          losses++;
-        }
-      }
-
-      // Create a StandingsDTO for the team
-      standings.add(new StandingsDTO(team.getName(), wins, losses, scored, conceded));
+    
+        // Sort standings by wins descending, then by differential descending
+        standings.sort(Comparator.comparingInt(StandingsDTO::getWins).reversed()
+            .thenComparingInt(StandingsDTO::getDifferential).reversed());
+    
+        return standings;
     }
-
-    // Sort standings by wins and then by score differential
-    standings.sort(Comparator.comparingInt(StandingsDTO::getWins).reversed()
-        .thenComparingInt(StandingsDTO::getDifferential).reversed());
-
-    return standings;
-  }
 }

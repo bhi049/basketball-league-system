@@ -3,12 +3,16 @@ package com.basketball.league;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.ui.Model;
+import java.io.File;
+import java.io.IOException;
 
 import com.basketball.league.model.Player;
 import com.basketball.league.model.PlayerRepository;
 import com.basketball.league.model.Team;
 import com.basketball.league.model.TeamRepository;
+import com.basketball.league.util.FileUploadUtil;
 import com.basketball.league.model.Game;
 import com.basketball.league.model.GameRepository;
 
@@ -51,10 +55,37 @@ public class AdminController {
   }
 
   @PostMapping("/teams/save")
-  public String saveTeam(@ModelAttribute Team team) {
-    teamRepository.save(team);
+  public String saveTeam(@ModelAttribute Team team, @RequestParam("logo") MultipartFile logo) {
+    try {
+        // Handle logo upload if provided
+        if (logo != null && !logo.isEmpty()) {
+            String logoPath = saveLogoFile(logo);
+            team.setLogoPath(logoPath);
+        }
+
+        teamRepository.save(team);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
     return "redirect:/admin/teams";
-  }
+}
+
+private String saveLogoFile(MultipartFile logo) throws Exception {
+    String uploadsDir = "src/main/resources/static/images/logos/";
+    String originalFilename = logo.getOriginalFilename();
+    String filePath = uploadsDir + originalFilename;
+
+    File directory = new File(uploadsDir);
+    if (!directory.exists()) {
+        directory.mkdirs(); // Ensure the directory exists
+    }
+
+    File file = new File(filePath);
+    logo.transferTo(file); // Save the uploaded file
+    return "/images/logos/" + originalFilename; // Path to serve the file
+}
+
+
 
   @GetMapping("/teams/delete/{id}")
   public String deleteTeam(@PathVariable Long id) {
@@ -86,9 +117,22 @@ public class AdminController {
 
   @PostMapping("/players/save")
   public String savePlayer(@ModelAttribute Player player) {
+    if (player.getId() != null) {
+        Player existingPlayer = playerRepository.findById(player.getId()).orElse(null);
+        if (existingPlayer != null) {
+            // Update the existing player's fields
+            existingPlayer.setFirstName(player.getFirstName());
+            existingPlayer.setLastName(player.getLastName());
+            existingPlayer.setPosition(player.getPosition());
+            existingPlayer.setTeam(player.getTeam());
+            playerRepository.save(existingPlayer);
+            return "redirect:/admin/players";
+        }
+    }
+    // Save as a new player if no ID is provided or it doesn't exist
     playerRepository.save(player);
     return "redirect:/admin/players";
-  }
+}
 
   @GetMapping("/players/delete/{id}")
   public String deletePlayer(@PathVariable Long id) {
@@ -120,9 +164,23 @@ public class AdminController {
 
   @PostMapping("/games/save")
   public String saveGame(@ModelAttribute Game game) {
+    if (game.getId() != null) {
+        Game existingGame = gameRepository.findById(game.getId()).orElse(null);
+        if (existingGame != null) {
+            // Update the existing game's fields
+            existingGame.setHomeTeam(game.getHomeTeam());
+            existingGame.setAwayTeam(game.getAwayTeam());
+            existingGame.setHomeTeamScore(game.getHomeTeamScore());
+            existingGame.setAwayTeamScore(game.getAwayTeamScore());
+            gameRepository.save(existingGame);
+            return "redirect:/admin/games";
+        }
+    }
+    // Save as a new game if no ID is provided or it doesn't exist
     gameRepository.save(game);
     return "redirect:/admin/games";
-  }
+}
+
 
   @GetMapping("/games/delete/{id}")
   public String deleteGame(@PathVariable Long id) {

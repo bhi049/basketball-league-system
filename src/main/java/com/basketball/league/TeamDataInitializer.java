@@ -23,6 +23,7 @@ public class TeamDataInitializer {
             
             // Initialize each team with players
             Team dragons = new Team("Dragons", "Kai Reynolds", "Emerald Bay");
+            dragons.setLogoPath("/images/logos/Dragons_logo.png");
             List<Player> dragonPlayers = List.of(
                 new Player("John", "Davis", "Shooting Guard", dragons),
                 new Player("Michael", "Lee", "Point Guard", dragons),
@@ -38,6 +39,7 @@ public class TeamDataInitializer {
             dragons.getPlayers().addAll(dragonPlayers);
 
             Team titans = new Team("Titans", "Ava Morrison", "Thunder Valley");
+            titans.setLogoPath("/images/logos/Titans_logo.png");
             List<Player> titanPlayers = List.of(
                 new Player("Alex", "Brown", "Point Guard", titans),
                 new Player("David", "Williams", "Shooting Guard", titans),
@@ -53,6 +55,7 @@ public class TeamDataInitializer {
             titans.getPlayers().addAll(titanPlayers);
 
             Team falcons = new Team("Falcons", "Jordan Blake", "Skyline City");
+            falcons.setLogoPath("/images/logos/Falcons_logo.png");
             List<Player> falconPlayers = List.of(
                 new Player("Henry", "Carter", "Point Guard", falcons),
                 new Player("Ryan", "Lewis", "Shooting Guard", falcons),
@@ -68,6 +71,7 @@ public class TeamDataInitializer {
             falcons.getPlayers().addAll(falconPlayers);
 
             Team thunderhawks = new Team("Thunderhawks", "Zane Hawkins", "Storm City");
+            thunderhawks.setLogoPath("/images/logos/Thunderhawks_logo.png");
             List<Player> thunderhawksPlayers = List.of(
                 new Player("Tyler", "Evans", "Point Guard", thunderhawks),
                 new Player("Joshua", "Ward", "Shooting Guard", thunderhawks),
@@ -83,6 +87,7 @@ public class TeamDataInitializer {
             thunderhawks.getPlayers().addAll(thunderhawksPlayers);
 
             Team silverbacks = new Team("Silverbacks", "Maya Torres", "Granite Hills");
+            silverbacks.setLogoPath("/images/logos/Silverbacks_logo.png");
             List<Player> silverbacksPlayers = List.of(
                 new Player("Aaron", "Reed", "Point Guard", silverbacks),
                 new Player("Austin", "Powell", "Shooting Guard", silverbacks),
@@ -98,6 +103,7 @@ public class TeamDataInitializer {
             silverbacks.getPlayers().addAll(silverbacksPlayers);
 
             Team raptors = new Team("Raptors", "Liam Carter", "Riverbend");
+            raptors.setLogoPath("/images/logos/Raptors_logo.png");
             List<Player> raptorsPlayers = List.of(
                 new Player("Max", "Bennett", "Point Guard", raptors),
                 new Player("Jordan", "Sanders", "Shooting Guard", raptors),
@@ -113,6 +119,7 @@ public class TeamDataInitializer {
             raptors.getPlayers().addAll(raptorsPlayers);
 
             Team cyclones = new Team("Cyclones", "Brianna Vance", "Windy Plains");
+            cyclones.setLogoPath("/images/logos/Cyclones_logo.png");
             List<Player> cyclonesPlayers = List.of(
                 new Player("Wyatt", "Foster", "Point Guard", cyclones),
                 new Player("Isaac", "Powell", "Shooting Guard", cyclones),
@@ -128,6 +135,7 @@ public class TeamDataInitializer {
             cyclones.getPlayers().addAll(cyclonesPlayers);
 
             Team mustangs = new Team("Mustangs", "Blake Johnson", "Iron Ridge");
+            mustangs.setLogoPath("/images/logos/Mustangs_logo.png");
             List<Player> mustangsPlayers = List.of(
                 new Player("Ethan", "Perry", "Point Guard", mustangs),
                 new Player("James", "Jenkins", "Shooting Guard", mustangs),
@@ -143,6 +151,7 @@ public class TeamDataInitializer {
             mustangs.getPlayers().addAll(mustangsPlayers);
 
             Team comets = new Team("Comets", "Olivia Green", "Celestial Bay");
+            comets.setLogoPath("/images/logos/Comets_logo.png");
             List<Player> cometsPlayers = List.of(
                 new Player("Noah", "Jenkins", "Point Guard", comets),
                 new Player("Hunter", "Coleman", "Shooting Guard", comets),
@@ -158,6 +167,7 @@ public class TeamDataInitializer {
             comets.getPlayers().addAll(cometsPlayers);
 
             Team phoenix = new Team("Phoenix", "Jackson Brooks", "Sunrise Coast");
+            phoenix.setLogoPath("/images/logos/Phoenix_logo.png");
             List<Player> phoenixPlayers = List.of(
                 new Player("Henry", "Green", "Point Guard", phoenix),
                 new Player("David", "Anderson", "Shooting Guard", phoenix),

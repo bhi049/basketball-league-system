@@ -35,7 +35,9 @@
             <li class="team-item" th:each="team : ${teams}">
                 <a th:href="@{'/teams/' + ${team.id}}">
                     <div class="team-logo">
-                        <img th:src="@{'/images/logos/' + ${team.name} + '_logo.png'}" alt="Team Logo">
+                        <img 
+                            th:src="${team.logoPath != null ? team.logoPath : '/images/logos/' + team.name + '_logo.png'}" 
+                            alt="Team Logo">
                     </div>
                     <span class="team-name" th:text="${team.name}"></span>
                     <!-- Add star icon for the favorite team -->
@@ -46,4 +48,3 @@
     </div>
 </body>
 </html>
-
