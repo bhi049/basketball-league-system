@@ -20,10 +20,13 @@ public class StandingsController {
     public String getStandings(Model model) {
         List<StandingsDTO> standings = gameService.getStandings();
     
-        // Log the standings to verify order
-        standings.forEach(standing -> 
-            System.out.println("Team: " + standing.getTeamName() + ", Wins: " 
-                + standing.getWins() + ", Differential: " + standing.getDifferential()));
+        // Log the sorted standings
+        System.out.println("Final Standings for View:");
+        standings.forEach(standing -> {
+            System.out.println("Team: " + standing.getTeamName() +
+                    ", Wins: " + standing.getWins() +
+                    ", Differential: " + standing.getDifferential());
+        });
     
         model.addAttribute("standings", standings);
         return "standings";

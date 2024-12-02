@@ -2,11 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Login - Pro Ball Fantasy League</title>
+    <title>Pro Ball Fantasy League - Home</title>
+    <!-- Include the global styles for the navigation bar -->
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <!-- Include the page-specific styles for the home page -->
+    <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 
 <body>
+    <!-- Navigation Bar (from global styles) -->
     <div class="header">
         <div class="logo-container">
             <img src="/images/logos/Pro_Ball_Fantasy.png" alt="Pro Ball Fantasy Logo" class="league-logo">
@@ -22,8 +26,6 @@
             <span th:if="${#authentication.authorities.contains('ROLE_ADMIN')}">
                 <a th:href="@{/admin}">Admin</a>
             </span>
-        
-            <!-- Dynamic login/logout buttons -->
             <span th:if="${#authentication.name != 'anonymousUser'}">
                 <a th:href="@{/logout}">Logout (<span th:text="${#authentication.name}"></span>)</a>
             </span>
@@ -33,7 +35,60 @@
             <a th:href="@{/account}" class="account-button">Account</a>
         </nav>
     </div>
-    
+
+    <!-- Content Sections -->
+    <div class="home-container">
+        <section class="welcome-section">
+            <h1>Welcome to Pro Ball Fantasy League!</h1>
+            <p>Step into the world of fantasy basketball with this fictional league where you can manage teams, track players, and explore game standings.</p>
+        </section>
+
+        <section class="about-section">
+            <h2>About the Application</h2>
+            <p>This application is a fictional basketball league built with the following technologies:</p>
+            <ul>
+                <li><b>Spring Boot:</b> Backend framework.</li>
+                <li><b>Maven:</b> Dependency management tool.</li>
+                <li><b>Thymeleaf:</b> Template engine for dynamic web pages.</li>
+                <li><b>MariaDB:</b> Database for storing league data.</li>
+                <li><b>Rahti:</b> Used for deployment.</li>
+            </ul>
+            <p>The teams and players have been generated using AI tools to add a creative touch to the league. As this is a school project, the application is still in production. Future updates will include additional features and improvements.</p>
+        </section>
+
+        <section class="features-section">
+            <h2>Key Features</h2>
+            <ul>
+                <li>View the league standings, team details, and player stats.</li>
+                <li>Log in as a user to select your favorite team and player.</li>
+                <li>Log in as an admin to manage and edit the league in more detail, including teams and players.</li>
+            </ul>
+        </section>
+
+        <section class="how-to-use-section">
+            <h2>How to Use</h2>
+            <p>Navigate through the application using the menu at the top. Here's a quick guide:</p>
+            <ul>
+                <li><b>Standings:</b> View the current league standings.</li>
+                <li><b>Games:</b> Check the scheduled and past games.</li>
+                <li><b>Teams:</b> Explore team rosters and logos.</li>
+                <li><b>Players:</b> Dive into player stats (coming soon) and profiles (coming soon).</li>
+            </ul>
+        </section>
+
+        <section class="about-creators-section">
+            <h2>About the Creator</h2>
+            <p>This application was developed by Nikolas Kataja as a school project to showcase some skills in web development, backend engineering, and database management. Special thanks to AI tools for assisting in generating team and player names!</p>
+            <p>Due to the deadline, the application is still in production and will be completed with additional features at a later date.</p>
+            <a th:href="@{/contact}" class="cta-button">Contact</a>
+        </section>
+
+        <section class="cta-section">
+            <h2>Ready to Explore?</h2>
+            <a th:href="@{/standings}" class="cta-button">View Standings</a>
+            <a th:href="@{/teams}" class="cta-button">Explore Teams</a>
+        </section>
+    </div>
 </body>
 
 </html>

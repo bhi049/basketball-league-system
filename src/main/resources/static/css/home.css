@@ -1,0 +1,93 @@
+/* Home Page Styling */
+.home-container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Welcome Section */
+.welcome-section h1 {
+  font-size: 2.5em;
+  color: #000; /* Changed to black */
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.welcome-section p {
+  text-align: center;
+  font-size: 1.2em;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Section Titles */
+.home-container h2 {
+  font-size: 1.8em;
+  color: #333;
+  text-align: center; /* Centered h2 */
+  margin-top: 20px;
+  padding-bottom: 5px;
+}
+
+/* Paragraphs and Lists */
+.home-container p {
+  color: #555;
+  font-size: 1em;
+  line-height: 1.6;
+}
+
+.home-container ul {
+  margin: 10px 0 20px 20px;
+  list-style-type: disc;
+  color: #555;
+}
+
+.home-container ul li {
+  margin-bottom: 10px;
+}
+
+/* Call to Action Section */
+.cta-section {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.cta-section .cta-button {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 1em;
+  color: #fff;
+  background-color: #007bff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.cta-section .cta-button:hover {
+  background-color: #0056b3;
+}
+
+.about-creators-section .cta-button {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 1em;
+  color: #fff;
+  background-color: #007bff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.about-creators-section .cta-button:hover {
+  background-color: #0056b3;
+}
+
+.about-creators-section {
+  text-align: center;
+  margin-top: 30px;
+}

@@ -1,6 +1,7 @@
 package com.basketball.league.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -18,58 +19,73 @@ import jakarta.transaction.Transactional;
 @Service
 public class GameService {
 
-  @Autowired
-  private TeamRepository teamRepository;
+    @Autowired
+    private TeamRepository teamRepository;
 
-  @Autowired
-  private GameRepository gameRepository;
+    @Autowired
+    private GameRepository gameRepository;
 
-  @Transactional
-  public void scheduleGames() {
-    if (gameRepository.count() > 0) {
-      // Games have already been scheduled, so skip initialization
-      return;
-  }
+    @Transactional
+    public void scheduleGames() {
+        if (gameRepository.count() > 0) {
+            // Games have already been scheduled, so skip initialization
+            return;
+        }
 
-    List<Team> teams = teamRepository.findAll();
+        List<Team> teams = teamRepository.findAll();
+        List<Game> gamesToSchedule = new ArrayList<>();
 
-    for (int i = 0; i < teams.size(); i++) {
-      for (int j = i + 1; j < teams.size(); j++) {
-        Team homeTeam = teams.get(i);
-        Team awayTeam = teams.get(j);
+        // Generate all possible games (home vs away) once
+        for (int i = 0; i < teams.size(); i++) {
+            for (int j = i + 1; j < teams.size(); j++) {
+                Team homeTeam = teams.get(i);
+                Team awayTeam = teams.get(j);
 
-        // Create a new Game instance
-        Game game = new Game();
-        game.setHomeTeam(homeTeam);
-        game.setAwayTeam(awayTeam);
+                Game game = new Game();
+                game.setHomeTeam(homeTeam);
+                game.setAwayTeam(awayTeam);
 
-       // Generate random scores with more variability
-       int homeBase = 80 + (int) (Math.random() * 20); // Base: 80–100
-       int awayBase = 75 + (int) (Math.random() * 20); // Base: 75–95
-       int homeRandomFactor = (int) (Math.random() * 15) - 7; // Random: -7 to +7
-       int awayRandomFactor = (int) (Math.random() * 15) - 7; // Random: -7 to +7
+                gamesToSchedule.add(game);
+            }
+        }
 
-       int homeScore = homeBase + homeRandomFactor;
-       int awayScore = awayBase + awayRandomFactor;
+        // Shuffle the games list to randomize the order
+        Collections.shuffle(gamesToSchedule);
 
-       // Random chance to favor the away team slightly
-       if (Math.random() > 0.5) {
-           homeScore -= (int) (Math.random() * 5);
-           awayScore += (int) (Math.random() * 5);
-       }
+        // Generate randomized scores for each game and ensure no ties
+        for (Game game : gamesToSchedule) {
+            int homeBase = 80 + (int) (Math.random() * 20); // Base: 80–100
+            int awayBase = 75 + (int) (Math.random() * 20); // Base: 75–95
+            int homeRandomFactor = (int) (Math.random() * 15) - 7; // Random: -7 to +7
+            int awayRandomFactor = (int) (Math.random() * 15) - 7; // Random: -7 to +7
 
-       game.setHomeTeamScore(Math.max(50, homeScore)); // Ensure minimum score of 50
-       game.setAwayTeamScore(Math.max(50, awayScore)); // Ensure minimum score of 50
+            int homeScore = homeBase + homeRandomFactor;
+            int awayScore = awayBase + awayRandomFactor;
 
+            // Random chance to favor the away team slightly
+            if (Math.random() > 0.5) {
+                homeScore -= (int) (Math.random() * 5);
+                awayScore += (int) (Math.random() * 5);
+            }
 
-        // Save the game to the repository
-        gameRepository.save(game);
-      }
+            // Ensure no ties
+            if (homeScore == awayScore) {
+                if (Math.random() > 0.5) {
+                    homeScore++;
+                } else {
+                    awayScore++;
+                }
+            }
+
+            game.setHomeTeamScore(Math.max(50, homeScore)); // Ensure minimum score of 50
+            game.setAwayTeamScore(Math.max(50, awayScore)); // Ensure minimum score of 50
+
+            // Save the game to the repository
+            gameRepository.save(game);
+        }
     }
-  }
 
-      // Calculate wins, losses, scored, and conceded for home games
-      public List<StandingsDTO> getStandings() {
+    public List<StandingsDTO> getStandings() {
         List<Team> teams = teamRepository.findAll();
         List<StandingsDTO> standings = new ArrayList<>();
     
@@ -104,13 +120,32 @@ public class GameService {
             }
     
             // Create a StandingsDTO for the team
-            standings.add(new StandingsDTO(team.getName(), wins, losses, scored, conceded));
+            StandingsDTO dto = new StandingsDTO(team.getName(), wins, losses, scored, conceded);
+            standings.add(dto);
+    
+            // Debugging: Log individual team stats
+            System.out.println("Team: " + team.getName() +
+                    " | Wins: " + wins +
+                    " | Losses: " + losses +
+                    " | Scored: " + scored +
+                    " | Conceded: " + conceded +
+                    " | Differential: " + dto.getDifferential());
         }
     
         // Sort standings by wins descending, then by differential descending
         standings.sort(Comparator.comparingInt(StandingsDTO::getWins).reversed()
-            .thenComparingInt(StandingsDTO::getDifferential).reversed());
+                .thenComparingInt(StandingsDTO::getDifferential).reversed());
+    
+        // Debugging: Log the sorted order
+        System.out.println("Sorted Standings:");
+        standings.forEach(dto -> {
+            System.out.println("Team: " + dto.getTeamName() +
+                    " | Wins: " + dto.getWins() +
+                    " | Differential: " + dto.getDifferential());
+        });
     
         return standings;
     }
+    
+    
 }
