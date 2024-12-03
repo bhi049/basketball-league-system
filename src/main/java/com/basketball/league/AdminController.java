@@ -12,9 +12,11 @@ import com.basketball.league.model.Player;
 import com.basketball.league.model.PlayerRepository;
 import com.basketball.league.model.Team;
 import com.basketball.league.model.TeamRepository;
+import com.basketball.league.service.TeamService;
 import com.basketball.league.util.FileUploadUtil;
 import com.basketball.league.model.Game;
 import com.basketball.league.model.GameRepository;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -28,6 +30,13 @@ public class AdminController {
 
   @Autowired
   private GameRepository gameRepository;
+
+  private final TeamService teamService;
+  public AdminController(TeamRepository teamRepository, TeamService teamService) {
+    this.teamRepository = teamRepository;
+    this.teamService = teamService;
+}
+
 
   @GetMapping
   public String adminPage() {
@@ -63,7 +72,13 @@ public class AdminController {
             team.setLogoPath(logoPath);
         }
 
-        teamRepository.save(team);
+        if (team.getId() != null) {
+            // Update the existing team
+            teamService.updateTeam(team.getId(), team);
+        } else {
+            // Create a new team
+            teamRepository.save(team);
+        }
     } catch (Exception e) {
         e.printStackTrace();
     }
