@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Pro Ball Fantasy League - Home</title>
+    <!-- Include the global styles for the navigation bar -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+
+<body>
+    <!-- Navigation Bar (from global styles) -->
+    <div class="header">
+        <div class="logo-container">
+            <img src="/images/logos/Pro_Ball_Fantasy.png" alt="Pro Ball Fantasy Logo" class="league-logo">
+            <span class="league-name">Pro Ball Fantasy League</span>
+        </div>
+        <nav class="navbar">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/standings}">Standings</a>
+            <a th:href="@{/games}">Games</a>
+            <a th:href="@{/teams}">Teams</a>
+            <a th:href="@{/players}">Players</a>
+            <a th:href="@{/contact}">Contact</a>
+            <span th:if="${#authentication.authorities.contains('ROLE_ADMIN')}">
+                <a th:href="@{/admin}">Admin</a>
+            </span>
+            <span th:if="${#authentication.name != 'anonymousUser'}">
+                <a th:href="@{/logout}">Logout (<span th:text="${#authentication.name}"></span>)</a>
+            </span>
+            <span th:unless="${#authentication.name != 'anonymousUser'}">
+                <a th:href="@{/login}">Login</a>
+            </span>
+            <a th:href="@{/account}" class="account-button">Account</a>
+        </nav>
+    </div>
+
+    <section class="contact-section">
+      <h1>Contact Me</h1>
+      <p>If you have any questions, feedback, or just want to learn more about the Pro Ball Fantasy League, feel free to reach out!</p>
+  
+      <h2>Contact Information</h2>
+      <ul>
+          <li><strong>Name:</strong> Nikolas Kataja</li>
+          <li><strong>Email:</strong> <a href="mailto:nikolas.kataja@gmail.com">nikolas.kataja@gmail.com</a></li>
+          <li><strong>GitHub:</strong> <a href="https://github.com/bhi049" target="_blank">Bhi049</a></li>
+          <li><strong>LinkedIn:</strong> <a href="" target="_blank">Coming soon... </a></li>
+      </ul>
+  </section>
+  <form method="POST" action="/contact">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="message">Message:</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+
+    <button type="submit">Send</button>
+</form>
+
+<!-- Display success or error messages -->
+<div th:if="${success}" class="alert alert-success">
+  <p th:text="${success}"></p>
+</div>
+<div th:if="${error}" class="alert alert-danger">
+  <p th:text="${error}"></p>
+</div>
+

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -20,6 +21,11 @@ import com.basketball.league.model.UserRepository;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import com.basketball.league.service.EmailService;
+
+
 
 @Controller
 public class HomeController {
@@ -28,13 +34,15 @@ public class HomeController {
   private final PlayerRepository playerRepository;
   private final GameRepository gameRepository;
   private final UserRepository userRepository;
+  private final EmailService emailService;
 
 
-  public HomeController(TeamRepository teamRepository, PlayerRepository playerRepository, GameRepository gameRepository, UserRepository userRepository) {
+  public HomeController(TeamRepository teamRepository, PlayerRepository playerRepository, GameRepository gameRepository, UserRepository userRepository, EmailService emailService) {
     this.teamRepository = teamRepository;
     this.playerRepository = playerRepository;
     this.gameRepository = gameRepository;
     this.userRepository = userRepository;
+    this.emailService = emailService;
   }
 
   @GetMapping("/")
@@ -47,6 +55,41 @@ public class HomeController {
       return "login"; // Maps to src/main/resources/templates/login.html
   }
 
+  @GetMapping("/contact")
+  public String contactPage() {
+      return "contact";
+  }
+  
+// Handle form submission
+@PostMapping("/contact")
+public String handleContactForm(
+  @RequestParam("name") String name,
+  @RequestParam("email") String email,
+  @RequestParam("message") String message,
+  Model model) {
+    try {
+        // Construct the email content
+        String subject = "New Contact Message from " + name;
+        String body = "You have received a new message from your website:\n\n" +
+                "Name: " + name + "\n" +
+                "Email: " + email + "\n\n" +
+                "Message:\n" + message;
+
+        // Send the email to yourself
+        emailService.sendEmail("nikolas.kataja@gmail.com", subject, body);
+
+        // Add success message to the model
+        model.addAttribute("success", "Thank you for reaching out! Your message has been sent successfully.");
+    } catch (Exception e) {
+        // Log the error for debugging
+        e.printStackTrace();
+
+        // Add error message to the model
+        model.addAttribute("error", "Oops! Something went wrong. Please try again.");
+    }
+
+    return "contact";
+}
 
     // List of all teams
     @GetMapping("/teams")

@@ -34,6 +34,7 @@ public class SecurityConfig {
                     "/teams", 
                     "/team-details", 
                     "/login", 
+                    "/test-email",
                     "/css/**", 
                     "/js/**", 
                     "/images/**"
