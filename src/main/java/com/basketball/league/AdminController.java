@@ -117,7 +117,7 @@ private String saveLogoFile(MultipartFile logo) throws Exception {
 
   @PostMapping("/players/save")
   public String savePlayer(@ModelAttribute Player player) {
-    if (player.getId() != null) {
+    if (player.getId() != null) { // Check if ID is provided
         Player existingPlayer = playerRepository.findById(player.getId()).orElse(null);
         if (existingPlayer != null) {
             // Update the existing player's fields
@@ -129,7 +129,7 @@ private String saveLogoFile(MultipartFile logo) throws Exception {
             return "redirect:/admin/players";
         }
     }
-    // Save as a new player if no ID is provided or it doesn't exist
+    // If no ID is provided or the ID doesn't exist, save as a new player
     playerRepository.save(player);
     return "redirect:/admin/players";
 }
@@ -164,7 +164,7 @@ private String saveLogoFile(MultipartFile logo) throws Exception {
 
   @PostMapping("/games/save")
   public String saveGame(@ModelAttribute Game game) {
-    if (game.getId() != null) {
+    if (game.getId() != null) { // Check if ID is provided
         Game existingGame = gameRepository.findById(game.getId()).orElse(null);
         if (existingGame != null) {
             // Update the existing game's fields
@@ -176,7 +176,6 @@ private String saveLogoFile(MultipartFile logo) throws Exception {
             return "redirect:/admin/games";
         }
     }
-    // Save as a new game if no ID is provided or it doesn't exist
     gameRepository.save(game);
     return "redirect:/admin/games";
 }

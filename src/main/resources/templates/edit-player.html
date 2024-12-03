@@ -7,18 +7,41 @@
 <body>
     <h1 th:text="${player.id == null ? 'Add New Player' : 'Edit Player'}"></h1>
     <form th:action="@{/admin/players/save}" th:object="${player}" method="post">
+        <!-- Include hidden field for the player ID -->
+        <input type="hidden" name="id" th:value="${player.id}">
+        
+        <!-- First Name -->
         <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" th:value="${player.firstName}" required><br>
+        <input type="text" id="firstName" name="firstName" th:value="${player.firstName}" required>
+        <br>
+        
+        <!-- Last Name -->
         <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" th:value="${player.lastName}" required><br>
+        <input type="text" id="lastName" name="lastName" th:value="${player.lastName}" required>
+        <br>
+        
+        <!-- Position -->
         <label for="position">Position:</label>
-        <input type="text" id="position" name="position" th:value="${player.position}" required><br>
+        <input type="text" id="position" name="position" th:value="${player.position}" required>
+        <br>
+        
+        <!-- Team -->
         <label for="team">Team:</label>
-        <select id="team" name="team.id">
-            <option th:each="team : ${teams}" th:value="${team.id}" th:text="${team.name}" th:selected="${player.team != null && player.team.id == team.id}"></option>
-        </select><br>
+        <select id="team" name="team.id" required>
+            <option value="" disabled th:if="${player.team == null}" selected>Select a team</option>
+            <option th:each="team : ${teams}" 
+                    th:value="${team.id}" 
+                    th:text="${team.name}" 
+                    th:selected="${player.team != null and player.team.id == team.id}">
+            </option>
+        </select>
+        <br>
+        
+        <!-- Submit Button -->
         <button type="submit">Save</button>
     </form>
+    
+    <!-- Back Link -->
     <a th:href="@{/admin/players}">Back to Players</a>
 </body>
 </html>
