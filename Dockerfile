@@ -14,5 +14,5 @@ RUN cp target/*.jar app.jar
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=builder /opt/app/app.jar /app/
-EXPOSE 8081
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
