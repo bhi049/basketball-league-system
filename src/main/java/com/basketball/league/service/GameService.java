@@ -27,7 +27,6 @@ public class GameService {
 
     @Transactional
     public void scheduleGames() {
-        gameRepository.deleteAll();
         if (gameRepository.count() > 0) {
             // Games have already been scheduled, so skip initialization
             return;

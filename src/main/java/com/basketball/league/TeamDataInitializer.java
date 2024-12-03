@@ -18,8 +18,6 @@ public class TeamDataInitializer {
 
     @Bean
     public CommandLineRunner loadData(TeamRepository teamRepository, PlayerRepository playerRepository, GameRepository gameRepository) {
-        teamRepository.deleteAll();
-        playerRepository.deleteAll();
         return (args) -> {
             if (teamRepository.count() == 0) {
             
