@@ -92,10 +92,10 @@
 
 		<!-- MariaDB database-->
 		<dependency>
-			<groupId>org.mariadb.jdbc</groupId>
-			<artifactId>mariadb-java-client</artifactId>
-			<version>3.1.4</version>
-		</dependency>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+</dependency>
+
 
 		<dependency>
     <groupId>org.springframework.boot</groupId>
